@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+	<div class="main">
+		<div class="login">
+			<h1>Drink this beer next<h1>
+			<div class="inset">
+				<form action="/" method="POST">
+  				<p>Enter your Untappd username here:</p>
+  				<input type="text" name="username"><br>
+  				<input type="submit" value="Beer Me">
+				</form> 
+				</div>
+			</div>
+		</div>
+		{% if results ==  1 %}
+		<div id="results">
+			<p>Drink a beer, {{username}}</p>
+		</div>
+		{% endif %}
+</body>
+</html>

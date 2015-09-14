@@ -16,10 +16,10 @@ import numpy as np
 # You could also load a pickled model rather than training on server
 # launch, which would be more typical.
 
-X = np.linspace(1, 1000, 50).reshape(-1,1)
-Y = np.zeros(50,)
-Y[25:] = np.ones(25,)
-PREDICTOR = LogisticRegression().fit(X,Y)
+# X = np.linspace(1, 1000, 50).reshape(-1,1)
+# Y = np.zeros(50,)
+# Y[25:] = np.ones(25,)
+# PREDICTOR = LogisticRegression().fit(X,Y)
 
 
 # Initialize the app
@@ -32,13 +32,13 @@ app = flask.Flask(__name__)
 # to the page http://127.0.0.1:5000/), return a simple
 # page that says the site is up!
 
-@app.route("/")
-def hello():
-    return "It's alive!!!"
+@app.route("/", methods= ['GET'])
+def beer_me():
+    return flask.render_template('beerme.html', results = 0)
 
 
 # Let's turn this into an API where you can post input data and get
-# back output data after some calculations.
+# back output data after so!!me calculations.
 
 # If a user makes a POST request to http://127.0.0.1:5000/predict, and
 # sends an X vector (to predict a class y_pred) with it as its data,
@@ -46,36 +46,37 @@ def hello():
 # prediction and send back another JSON with the answer. You can use
 # this to make interactive visualizations.
 
-@app.route("/predict", methods=["POST"])
+@app.route("/", methods=["POST"])
 def predict():
 
     # read the data that came with the POST request as a dict
-    data = flask.request.json
+    data = flask.request.form['username']
 
     # let's convert this into a numpy array so that we can
     # stick it into our model
-    x = np.array(data["example"]).reshape(-1,1)
+    # x = np.array(data["example"]).reshape(-1,1)
 
-    # Classify!
-    y_pred = PREDICTOR.predict(x)
+    # # Classify!
+    # y_pred = PREDICTOR.predict(x)
 
-    # Turn the result into a simple list so we can put it in
-    # a json (json won't understand numpy arrays)
-    y_pred = list(y_pred)
+    # # Turn the result into a simple list so we can put it in
+    # # a json (json won't understand numpy arrays)
+    # y_pred = list(y_pred)
 
-    # Put the result in a nice dict so we can send it as json
-    results = {"predicted": y_pred}
+    # # Put the result in a nice dict so we can send it as json
+    # results = {"predicted": y_pred}
 
     # Return a response with a json in it
     # flask has a quick function for that that takes a dict
-    return flask.jsonify(results)
+    #return flask.jsonify(results)
+    return flask.render_template('beerme.html', results = 1, username = data)
 
 
 # Start the server, continuously listen to requests.
 # We'll have a running web app!
 
 # For local development:
-app.run(debug=True)
+app.run(host='0.0.0.0',debug=True)
 
 # For public web serving:
 # app.run(host='0.0.0.0')
